@@ -1,5 +1,6 @@
 package test
 
+import org.w3c.dom.NodeList
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -155,3 +156,13 @@ fun deleteDuplication(pHead: ListNode?): ListNode? {
     }
     return null
 }
+
+//插入到linkedList的头部
+//fun push(newData: Int) {
+//    //构建要插入的节点
+//    val newNode = ListNode(newData)
+//    //新节点的next指向现在的head节点
+//    newNode.next = head;
+//    //现有的head节点指向新的节点,next和head头尾对应
+//    head = newNode;
+//}
