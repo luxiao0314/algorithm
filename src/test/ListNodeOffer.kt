@@ -1,6 +1,7 @@
 package test
 
 import java.util.*
+import kotlin.collections.HashSet
 
 
 /**
@@ -10,72 +11,21 @@ import java.util.*
  * @Version
  */
 fun main() {
-    val nums = intArrayOf(2, 5, 1, 4)
-
-//    reOrderArray3(nums)
-//    println(nums.contentToString())
 
     val listNode = ListNode(2)
     val listNode1 = ListNode(3)
-    listNode1.next = ListNode(4)
+    val listNode2 = ListNode(4)
+    val listNode3 = ListNode(4)
+
     listNode.next = listNode1
-    println(reverseList1(listNode))
+    listNode1.next = listNode2
+    listNode2.next = listNode3
 
-}
+//    println(reverseList1(listNode))
 
-//输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
-/*************************************************************************************************************************/
+//    println(findFirstCommonNode(listNode, ListNode(3, listNode1)))
 
-//用空间换时间做法，就是新建一个数组，copy一份，先计算出奇数的个数，也就是能够知道第一个偶数应该放在数组的哪一个位置，然后再遍历一次，依次放到对应的位置即可。
-fun reOrderArray1(nums: IntArray) {
-    // 奇数个数
-    var oddCnt = 0
-    for (x in nums) if (x % 2 == 1) oddCnt++
-    val copy = nums.clone()
-    var i = 0
-    var j = oddCnt
-    for (num in copy) {
-        if (num % 2 == 1) {
-            nums[i++] = num
-        } else {
-            nums[j++] = num
-        }
-    }
-}
-
-//时间复杂度为O(n^2),类似冒泡，将找到的奇数不断往前面冒泡，直到前面排好奇数的位置。
-fun reOrderArray2(array: IntArray) {
-    // 已经摆好的奇数个数
-    var numOfOdd = 0
-    for (i in array.indices) {
-        if (array[i] % 2 == 1) {
-            var j = i
-            // 往前面冒泡
-            while (j > numOfOdd) {
-                val tmp = array[j]
-                array[j] = array[j - 1]
-                array[j - 1] = tmp
-                j--
-            }
-            numOfOdd++
-        }
-    }
-}
-
-//通过添加奇数到一个集合,偶数到一个集合,两个再合并
-fun reOrderArrays3(array: IntArray) {
-    val ji = mutableListOf<Int>()
-    val ou = mutableListOf<Int>()
-    // 已经摆好的奇数个数
-    array.map {
-        if (it % 2 == 1) {
-            ji.add(it)
-        } else {
-            ou.add(it)
-        }
-    }
-    ji.addAll(ou)
-    println("nums: $ji}")
+    println(deleteDuplication(listNode))
 }
 
 //输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
@@ -153,3 +103,55 @@ fun reverseList2(head: ListNode?): ListNode? {
     return listnode.next
 }
 
+//输入两个链表，找出它们的第一个公共结点。（注意因为传入数据是链表，所以错误测试数据的提示是用其他方式显示的，保证传入数据是正确的）
+/*************************************************************************************************************************/
+
+//第一种做法，直接依赖于HashSet，遍历第一个链表的时候，将所有的节点，添加到hashset中，遍历第二个链表的时候直接判断是否包含即可，属于空间换时间的做法。
+fun findFirstCommonNode(pHead1: ListNode?, pHead2: ListNode?): ListNode? {
+    //创建集合set
+    var pHead1 = pHead1
+    var pHead2 = pHead2
+    val set: MutableSet<ListNode> = HashSet()
+    while (pHead1 != null) {
+        set.add(pHead1)
+        pHead1 = pHead1.next
+    }
+    while (pHead2 != null) {
+        if (set.contains(pHead2)) return pHead2
+        pHead2 = pHead2.next
+    }
+    return null
+}
+
+
+//在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+/*************************************************************************************************************************/
+
+//第一种做法是借助额外的空间，使用了HashMap,先遍历一次，将里面的元素以及是否重复，记录下来，key是出现的元素，value是重复标记
+//再次遍历LinkedHashMap里面的元素，取出value不为-1的元素，也就是出现一次的元素，拼接成为链表。
+fun deleteDuplication(pHead: ListNode?): ListNode? {
+    var pHead = pHead
+    val maps: HashMap<Int, Int> = HashMap()
+    if (pHead != null) {
+        // 遍历添加到set中
+        while (pHead != null) {
+            if (!maps.containsKey(pHead.head)) {
+                maps[pHead.head] = 1
+            } else {
+                maps[pHead.head] = -1
+            }
+            pHead = pHead.next
+        }
+        val listNode = ListNode(-1)
+        var temp: ListNode? = listNode
+        maps.entries.map {
+            if (it.value == 1) {
+                temp?.next = ListNode(it.key)
+                temp = temp?.next
+            }
+        }
+
+        return listNode.next
+    }
+    return null
+}
