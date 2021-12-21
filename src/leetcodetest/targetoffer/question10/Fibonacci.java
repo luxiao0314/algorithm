@@ -54,11 +54,25 @@ public class Fibonacci {
         return result;
     }
 
-    public static void main(String[] args) {
-        int result = fibonacciByRecursion(9);
-        System.out.println(result);
+    //写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）
+    public static int fib(int n) {
+        int a = 0, b = 1, sum;
+        for(int i = 0; i < n; i++){
+            sum = (a + b) % 1000000007;
+            a = b;
+            b = sum;
+        }
+        return a;
+    }
 
-        int result1 = fibonacciByIteration(9);
-        System.out.println(result1);
+    public static void main(String[] args) {
+//        int result = fibonacciByRecursion(9);
+//        System.out.println(result);
+//
+//        int result1 = fibonacciByIteration(9);
+//        System.out.println(result1);
+
+        int fib = fib(9);
+        System.out.println(fib);
     }
 }

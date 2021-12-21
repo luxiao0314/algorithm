@@ -22,15 +22,12 @@ public class LeastKNumbers {
         while (index != k - 1) {
             if (index > k - 1) {
                 end = index - 1;
-                index = partition(nums, start, end);
             } else {
                 start = index + 1;
-                index = partition(nums, start, end);
             }
+            index = partition(nums, start, end);
         }
-        for (int i = 0; i < k; i++) {
-            result[i] = nums[i];
-        }
+        System.arraycopy(nums, 0, result, 0, k);
         return result;
     }
 
@@ -85,18 +82,13 @@ public class LeastKNumbers {
             return new int[0];
         }
 
-        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2 - o1;
-            }
-        });
-        for (int i = 0; i < nums.length; i++) {
+        Queue<Integer> queue = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int num : nums) {
             if (queue.size() < k) {
-                queue.offer(nums[i]);
-            } else if (nums[i] < queue.peek()) {
+                queue.offer(num);
+            } else if (num < queue.peek()) {
                 queue.poll();
-                queue.offer(nums[i]);
+                queue.offer(num);
             }
         }
         int[] result = new int[k];
@@ -110,8 +102,8 @@ public class LeastKNumbers {
     public static void main(String[] args) {
         int[] nums = new int[]{4, 5, 1, 6, 2, 7, 3, 8};
 //        int[] nums = new int[]{0, 1, 1, 1, 4, 5, 3, 7, 7, 8, 10, 2, 7, 8, 0, 5, 2, 16, 12, 1, 19, 15, 5, 18, 2, 2, 22, 15, 8, 22, 17, 6, 22, 6, 22, 26, 32, 8, 10, 11, 2, 26, 9, 12, 9, 7, 28, 33, 20, 7, 2, 17, 44, 3, 52, 27, 2, 23, 19, 56, 56, 58, 36, 31, 1, 19, 19, 6, 65, 49, 27, 63, 29, 1, 69, 47, 56, 61, 40, 43, 10, 71, 60, 66, 42, 44, 10, 12, 83, 69, 73, 2, 65, 93, 92, 47, 35, 39, 13, 75};
-//        int[] result = getLeastNumbers(nums, 75);
-        int[] result = getLeastNumbers1(nums, 4);
+        int[] result = getLeastNumbers(nums, 4);
+//        int[] result = getLeastNumbers1(nums, 4);
         System.out.println(Arrays.toString(result));
     }
 }
