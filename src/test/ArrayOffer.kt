@@ -18,7 +18,11 @@ fun main() {
 
 //    println(getLeastNumbers1(intArrayOf(4, 5, 1, 6, 2, 7, 3, 8), 4).contentToString())
 
-    println(majorityElement2(intArrayOf(4, 1, 1, 1, 2, 2, 7, 3, 3)))
+//    println(majorityElement2(intArrayOf(4, 1, 1, 1, 2, 2, 7, 3, 3)))
+
+    println("threeSum: " + threeSum(intArrayOf(-1, 0, 1, 2, -1, -4)))
+
+    println("twoSum: " + twoSum(intArrayOf(2, 7, 11, 15), 9).contentToString())
 }
 
 //调整数组顺序使奇数位于偶数前面
@@ -193,4 +197,90 @@ fun findRepeatNumber(nums: IntArray): Int {
         }
     }
     return repeat
+}
+
+//三数之和
+//给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+//注意：答案中不可以包含重复的三元组。
+//https://leetcode-cn.com/problems/3sum/
+/*************************************************************************************************************************/
+fun threeSum(nums: IntArray): List<List<Int>> { // 总时间复杂度：O(n^2)
+    val ans: MutableList<List<Int>> = ArrayList()
+    if (nums.size <= 2) return ans
+    Arrays.sort(nums) // O(nlogn)
+
+    for (i in nums.indices) { // O(n^2)
+        if (nums[i] > 0) break // 第一个数大于 0，后面的数都比它大，肯定不成立了
+        if (i > 0 && nums[i] == nums[i - 1]) continue  // 去掉重复情况
+
+        var left = i + 1
+        var right = nums.size - 1
+        while (left < right) {
+            if (nums[left] + nums[right] + nums[i] == 0) {
+                ans.add(ArrayList(listOf(nums[i], nums[left], nums[right])))
+
+                // 现在要增加 left，减小 right，但是不能重复，比如: [-2, -1, -1, -1, 3, 3, 3], i = 0, left = 1, right = 6, [-2, -1, 3] 的答案加入后，需要排除重复的 -1 和 3
+                left++
+                right-- // 首先无论如何先要进行加减操作
+
+                // 2层去重，111333这种情况，只需要算一次，i,j 移动到 最内部 1，3
+                while (left < right && nums[left] == nums[left - 1]) left++
+                while (left < right && nums[right] == nums[right + 1]) right--
+            } else if (nums[left] + nums[right] + nums[i] < 0) {
+                left++
+            } else {  // nums[left] + nums[right] > target
+                right--
+            }
+        }
+    }
+    return ans
+}
+
+fun threeSum2(nums: IntArray): List<List<Int>> {
+    Arrays.sort(nums)
+    val lists: MutableSet<List<Int>> = HashSet()
+    for (i in nums.indices) {
+        var left = i + 1
+        var right = nums.size - 1
+        while (left < right) {
+            if (nums[left] + nums[right] + nums[i] == 0) {
+                lists.add(ArrayList(listOf(nums[i], nums[left], nums[right])))
+                left++
+                right--
+            } else if (nums[i] + nums[left] + nums[right] < 0) {
+                left++
+            } else {
+                right--
+            }
+        }
+    }
+    return ArrayList(lists)
+}
+
+//两数之和 nums = [2,7,11,15], target = 9
+//给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+/*************************************************************************************************************************/
+fun twoSum(nums: IntArray, target: Int): IntArray {
+    val n = nums.size
+    for (i in 0 until n) {
+        for (j in i + 1 until n) {
+            if (nums[i] + nums[j] == target) {
+                return intArrayOf(i, j)
+            }
+        }
+    }
+    return IntArray(0)
+}
+
+fun twoSum2(nums: IntArray, target: Int): IntArray {
+    val mutableMap: MutableMap<Int, Int> = HashMap()
+    for (i in nums.indices) {
+        val key = target - nums[i]
+        if (mutableMap.containsKey(key)) {
+            return intArrayOf(mutableMap[key]!!, i)
+        }
+        //放入nums中num和索引
+        mutableMap[nums[i]] = i
+    }
+    return IntArray(0)
 }
