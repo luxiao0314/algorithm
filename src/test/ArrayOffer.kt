@@ -12,17 +12,17 @@ import java.util.*
 fun main() {
     val nums = intArrayOf(2, 5, 1, 4)
 
-//    reOrderArray3(nums)
-//
-//    println(nums.contentToString())
+    reOrderArray1(nums)
+
+    println(nums.contentToString())
 
 //    println(getLeastNumbers1(intArrayOf(4, 5, 1, 6, 2, 7, 3, 8), 4).contentToString())
 
 //    println(majorityElement2(intArrayOf(4, 1, 1, 1, 2, 2, 7, 3, 3)))
 
-    println("threeSum: " + threeSum(intArrayOf(-1, 0, 1, 2, -1, -4)))
+//    println("threeSum: " + threeSum2(intArrayOf(-1, 0, 1, 2, -1, -4)))
 
-    println("twoSum: " + twoSum(intArrayOf(2, 7, 11, 15), 9).contentToString())
+//    println("twoSum: " + twoSum2(intArrayOf(2, 7, 11, 15), 9).contentToString())
 }
 
 //调整数组顺序使奇数位于偶数前面
@@ -39,8 +39,10 @@ fun reOrderArray1(nums: IntArray) {
     var j = oddCnt
     for (num in copy) {
         if (num % 2 == 1) {
+            //基数往前放
             nums[i++] = num
         } else {
+            //偶数往后放,基于基数个数往后放
             nums[j++] = num
         }
     }
@@ -237,18 +239,26 @@ fun threeSum(nums: IntArray): List<List<Int>> { // 总时间复杂度：O(n^2)
 }
 
 fun threeSum2(nums: IntArray): List<List<Int>> {
-    Arrays.sort(nums)
+    Arrays.sort(nums)   //从小到大排序
+    println(nums.contentToString())
+
     val lists: MutableSet<List<Int>> = HashSet()
     for (i in nums.indices) {
         var left = i + 1
         var right = nums.size - 1
+
+        println("(left: $left) (right:$right)")
         while (left < right) {
+            //如果相等,left右移,rift左移
             if (nums[left] + nums[right] + nums[i] == 0) {
                 lists.add(ArrayList(listOf(nums[i], nums[left], nums[right])))
                 left++
                 right--
+                //如果小于0,说明left太小,left右移
             } else if (nums[i] + nums[left] + nums[right] < 0) {
                 left++
+
+                //如果大于0,说明right太大,right左移
             } else {
                 right--
             }
@@ -275,12 +285,13 @@ fun twoSum(nums: IntArray, target: Int): IntArray {
 fun twoSum2(nums: IntArray, target: Int): IntArray {
     val mutableMap: MutableMap<Int, Int> = HashMap()
     for (i in nums.indices) {
+        //放入nums中num和索引
+        mutableMap[nums[i]] = i
+
         val key = target - nums[i]
         if (mutableMap.containsKey(key)) {
             return intArrayOf(mutableMap[key]!!, i)
         }
-        //放入nums中num和索引
-        mutableMap[nums[i]] = i
     }
     return IntArray(0)
 }

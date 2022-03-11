@@ -10,15 +10,15 @@ package test
 object Test {
     @JvmStatic
     fun main(args: Array<String>) {
-//        val nums = intArrayOf(5, 2, 1, 3)
+        val nums = intArrayOf(5, 2, 1, 3)
 //        //冒泡排序
-//        bubbleSort(nums)
-//        println(nums.contentToString())
+        bubbleSort(nums)
+        println(nums.contentToString())
 //
 //        //二分查找
 //        println(search(intArrayOf(5, 2, 1, 3), 1))
 
-        println(minNumber(intArrayOf(3, 30, 34, 5, 9)))
+//        println(minNumber(intArrayOf(3, 30, 34, 5, 9)))
     }
 
     /**

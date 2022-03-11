@@ -12,22 +12,22 @@ import kotlin.jvm.JvmStatic
 
 /**
  * Stack和list类似,继承Vector,push就是顺序添加数据,pop是list.get(len-1)获取最后面的值
- * Stack是先进后出,list是顺序添加
+ * Stack和list都是顺序添加,Stack的先进后出是pop和peek都是从后面取elementAt(len - 1)
  */
 class MinStack {
     var stack: Stack<Int> = Stack()
     var stackMin: Stack<Int> = Stack()
     fun push(x: Int) {
         stack.push(x)
-        if (!stackMin.isEmpty()) {
+        if (stackMin.isEmpty()) {
+            stackMin.push(x)
+        } else {
             val num = stackMin.peek()
             if (x < num) {
                 stackMin.push(x)
             } else {
                 stackMin.push(num)
             }
-        } else {
-            stackMin.push(x)
         }
     }
 
@@ -52,9 +52,9 @@ class MinStack {
             minStack.push(0)
             minStack.push(-3)
             println(minStack.min())
-            minStack.pop()
+//            minStack.pop()
             println(minStack.top())
-            println(minStack.min())
+//            println(minStack.min())
         }
     }
 

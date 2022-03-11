@@ -5,7 +5,7 @@ import kotlin.jvm.JvmStatic
 
 /**
  * @Description: https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/
- * 剑指 Offer 09. 用两个栈实现队列
+ * 剑指 Offer 09. 用两个栈实现队列 :取出栈先进后出数据添加到新的栈,就是先进先出
  * @Author tinytongtong
  * @Date 2020/9/4 6:05 PM
  * @Version
@@ -14,27 +14,27 @@ object ImplQueueByTwoStack {
     @JvmStatic
     fun main(args: Array<String>) {
         val obj = CQueue()
-        obj.appendTail(1)
-        obj.appendTail(2)
-        obj.appendTail(3)
+        obj.add(1)
+        obj.add(2)
+        obj.add(3)
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         println(obj)
-        println(obj.deleteHead())
-        obj.appendTail(4)
-        obj.appendTail(5)
-        obj.appendTail(6)
+        println(obj.pop())
+        obj.add(4)
+        obj.add(5)
+        obj.add(6)
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         // 无数据了
         println(obj)
-        println(obj.deleteHead())
+        println(obj.pop())
         println(obj)
     }
 
@@ -47,12 +47,12 @@ object ImplQueueByTwoStack {
     private class CQueue {
         private val stackAdd: Stack<Int> = Stack()
         private val stackRemove: Stack<Int> = Stack()
-        fun appendTail(value: Int) {
+        fun add(value: Int) {
             stackAdd.add(value)
         }
 
-        //取出栈先进后出数据添加到新的栈,就是先进先出了
-        fun deleteHead(): Int {
+        //取出栈先进后出数据添加到新的栈,就是先进先出
+        fun pop(): Int {
             if (stackRemove.isEmpty()) {
                 while (!stackAdd.isEmpty()) {
                     stackRemove.add(stackAdd.pop())

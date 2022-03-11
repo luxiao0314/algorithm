@@ -11,7 +11,7 @@ object StringTest {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println("leftRotateString1: " + leftRotateString1("abcXYZdef", 3))
+//        println("leftRotateString1: " + leftRotateString1("abcXYZdef", 3))
         println("permutation: " + permutation("abc").contentToString())
     }
 }
@@ -51,34 +51,36 @@ fun reverseSentence(str: String?): String? {
     return str
 }
 
-//字符串的排列
+//字符串的排列组合
 //https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/
 //输入一个字符串，打印出该字符串中字符的所有排列。
 //你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
 //给定一个字符串，输出所有不同字符组合
 /*******************************************************************************************/
-var chars: CharArray = charArrayOf()
 val lists = HashSet<String>()
+
 //"abc"
 fun permutation(s: String): Array<String> {
-    chars = s.toCharArray()
-    dfs("", BooleanArray(s.length))
+    val chars = s.toCharArray()
+    dfs("", BooleanArray(s.length), chars)
     return lists.toTypedArray()
 }
 
-fun dfs(s: String, visited: BooleanArray) {
+fun dfs(s: String, visited: BooleanArray, chars: CharArray) {
     println(s)
-    if (s.length == chars.size) {
-        lists.add(s)
-        return
-    }
+
     for (i in chars.indices) {
         //取出重复元素
         if (visited[i]) continue
 
         visited[i] = true
-        dfs(s + chars[i].toString(), visited)
+        dfs(s + chars[i].toString(), visited, chars)
         visited[i] = false
+    }
+
+    if (s.length == chars.size) {
+        lists.add(s)
+        return
     }
 }
 

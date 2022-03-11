@@ -13,20 +13,15 @@ import javax.swing.tree.TreeNode
  */
 fun main() {
 
-    val listNode = ListNode(2)
-    val listNode1 = ListNode(3)
-    val listNode2 = ListNode(4)
-    val listNode3 = ListNode(4)
+    val listNode3 = ListNode(4,null)
+    val listNode2 = ListNode(3,listNode3)
+    val listNode1 = ListNode(2,listNode2)
+    val listNode = ListNode(1,listNode1)
 
-    listNode.next = listNode1
-    listNode1.next = listNode2
-    listNode2.next = listNode3
-
-//    println(reverseList1(listNode))
-
+//    println(listFromTailToHead3(listNode))
+    println(reverseList1(listNode))
 //    println(findFirstCommonNode(listNode, ListNode(3, listNode1)))
-
-    println(deleteDuplication(listNode))
+//    println(deleteDuplication(listNode))
 }
 
 //输入一个链表，按链表从尾到头的顺序返回一个ArrayList。

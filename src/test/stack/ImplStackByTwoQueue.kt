@@ -13,19 +13,19 @@ object ImplStackByTwoQueue {
     @JvmStatic
     fun main(args: Array<String>) {
 //        CStack stack = new CStack();
-        val stack = CStack1()
+        val stack = CStack()
         stack.add(1)
         stack.add(2)
         stack.add(3)
         stack.add(4)
-        println(stack)
+//        println(stack)
         println(stack.pop())
         println(stack.pop())
-        stack.add(5)
-        stack.add(6)
-        println(stack)
-        println(stack.pop())
-        println(stack)
+//        stack.add(5)
+//        stack.add(6)
+//        println(stack)
+//        println(stack.pop())
+//        println(stack)
     }
 
     /**
@@ -36,11 +36,34 @@ object ImplStackByTwoQueue {
     private class CStack {
         var queue1: Queue<Int> = LinkedList()
         var queue2: Queue<Int> = LinkedList()
-        fun add(`val`: Int) {
-            if (!queue1.isEmpty()) {
-                queue1.add(`val`)
+
+        //首次add只往其中一个队列中加,pop之后,另一个队列就有数据了
+        fun add(value: Int) {
+            if (queue1.isNotEmpty()) {
+                queue1.add(value)
             } else {
-                queue2.add(`val`)
+                queue2.add(value)
+            }
+        }
+
+        //浅显易懂
+        fun pops(): Int {
+            if (queue1.isEmpty() && queue2.isEmpty()) {
+                return -1
+            }
+            return if (queue1.isEmpty()) {
+                //queue2: 1 2 3 4
+                while (queue2.size > 1) {
+                    //只保留queue2中一条数据,先进先出,留下最后的4就是pop的
+                    queue1.add(queue2.poll())
+                }
+                if (!queue2.isEmpty()) queue2.poll() else -1
+            } else {
+                while (queue1.size > 1) {
+                    //再次pop:只保留queue中一条数据,先进先出,留下最后的4就是pop的
+                    queue2.add(queue1.poll())
+                }
+                if (!queue1.isEmpty()) queue1.poll() else -1
             }
         }
 
@@ -49,16 +72,18 @@ object ImplStackByTwoQueue {
                 return -1
             }
             return if (queue1.isEmpty()) {
-                while (queue2.size > 1) {
-                    queue1.add(queue2.poll())
-                }
-                if (!queue2.isEmpty()) queue2.poll() else -1
+                swap(queue2, queue1)
             } else {
-                while (queue1.size > 1) {
-                    queue2.add(queue1.poll())
-                }
-                if (!queue1.isEmpty()) queue1.poll() else -1
+                swap(queue1, queue2)
             }
+        }
+
+        private fun swap(queue1: Queue<Int>, queue2: Queue<Int>): Int {
+            while (queue1.size > 1) {
+                //再次pop:只保留queue中一条数据,先进先出,留下最后的4就是pop的
+                queue2.add(queue1.poll())
+            }
+            return if (!queue1.isEmpty()) queue1.poll() else -1
         }
 
         override fun toString(): String {
@@ -80,7 +105,7 @@ object ImplStackByTwoQueue {
     private class CStack1 {
         var queue1: Queue<Int> = LinkedList()
         var queue2: Queue<Int> = LinkedList()
-        fun add(`val`: Int) {
+        fun add(value: Int) {
             val empty: Queue<Int>
             val notEmpty: Queue<Int>
             if (queue1.isEmpty()) {
@@ -95,7 +120,7 @@ object ImplStackByTwoQueue {
                 empty.add(notEmpty.poll())
             }
             // 2、add
-            notEmpty.add(`val`)
+            notEmpty.add(value)
             // 3、swap back
             while (!empty.isEmpty()) {
                 notEmpty.add(empty.poll())
