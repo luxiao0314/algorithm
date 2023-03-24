@@ -2,6 +2,8 @@ package leetcodetest.binary_tree;
 
 import java.util.Stack;
 
+import test.TreeNode;
+
 /**
  * @Description: https://leetcode-cn.com/problems/validate-binary-search-tree/
  * 98. 验证二叉搜索树
@@ -10,15 +12,7 @@ import java.util.Stack;
  * @Version
  */
 public class ValidateBinarySearchTree {
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
 
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 
     /**
      * 递归
@@ -34,7 +28,7 @@ public class ValidateBinarySearchTree {
         if (root == null) {
             return true;
         }
-        int val = root.val;
+        int val = root.root;
         // 小于等于下届，不符合
         if (lower != null && lower >= val) {
             return false;
@@ -71,10 +65,10 @@ public class ValidateBinarySearchTree {
                 root = root.left;
             }
             root = stack.pop();
-            if (root.val <= preorder) {
+            if (root.root <= preorder) {
                 return false;
             }
-            preorder = root.val;
+            preorder = root.root;
             root = root.right;
         }
 

@@ -3,6 +3,8 @@ package leetcodetest.binary_tree;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import test.TreeNode;
+
 /**
  * @Description: https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
  * 104. 二叉树的最大深度
@@ -11,16 +13,6 @@ import java.util.Queue;
  * @Version
  */
 public class MaximumDepthOfBinaryTree {
-
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 
     /**
      * 递归 DFS

@@ -20,16 +20,6 @@ object TheeOffer {
     }
 }
 
-data class TreeNode(var root: Int, var left: TreeNode? = null, var right: TreeNode? = null) {
-    override fun toString(): String {
-        return "TreeNode{" +
-                "root=" + root +
-                ", left=" + left +
-                ", right=" + right +
-                '}'
-    }
-}
-
 //重建二叉树
 /*************************************************************************************************************************/
 

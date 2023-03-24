@@ -27,30 +27,51 @@ public class ReverseListNode {
         }
     }
 
+    public static ListNode ReverseList(ListNode head) {
+        //新链表
+        ListNode newHead = null;
+        while (head != null) {
+            //先保存访问的节点的下一个节点，保存起来
+            //留着下一步访问的
+            ListNode temp = head.next;
+            //每次访问的原链表节点都会成为新链表的头结点，
+            //其实就是把新链表挂到访问的原链表节点的后面就行了
+            head.next = newHead;
+            //更新新链表
+            newHead = head;
+            //重新赋值，继续访问
+            head = temp;
+        }
+        //返回新链表
+        return newHead;
+    }
+
     /**
      * 迭代实现
      * 时间复杂度O(n)
      * 空间复杂度O(1)
      *
-     * @param pHead
+     * @param head
      * @return
      */
-    private static ListNode reverseListByIteration(ListNode pHead) {
-        if (pHead == null) {
-            return null;
+    private static ListNode reverseListByIteration(ListNode head) {
+        //pre指针：用来指向反转后的节点，初始化为null
+        ListNode pre = null;
+        //当前节点指针
+        ListNode cur = head;
+        //循环迭代
+        while(cur!=null){
+            //Cur_next 节点，永远指向当前节点cur的下一个节点
+            ListNode Cur_next = cur.next;
+            //反转的关键：当前的节点指向其前一个节点(注意这不是双向链表，没有前驱指针)
+            cur.next = pre;
+            //更新pre
+            pre = cur;
+            //更新当前节点指针
+            cur = Cur_next ;
         }
-        ListNode pCurr = pHead.next;
-        ListNode pPrev = pHead;
-        pPrev.next = null; // 避免野指针
-        ListNode pNext = null;
-        while (pCurr != null) {
-            pNext = pCurr.next;
-            // reverse
-            pCurr.next = pPrev;
-            pPrev = pCurr;
-            pCurr = pNext;
-        }
-        return pPrev;
+        //为什么返回pre？因为pre是反转之后的头节点
+        return pre;
     }
 
     /**
@@ -90,6 +111,7 @@ public class ReverseListNode {
      * 用栈实现
      * 时间复杂度O(n)
      * 空间复杂度O(n)
+     * 采用栈先进后出方式,反转即倒排
      *
      * @param pHead
      * @return
@@ -122,10 +144,10 @@ public class ReverseListNode {
         pNode2.next = pNode3;
         pNode3.next = pNode4;
         pNode4.next = pNode5;
-        System.out.println(pHead);
+//        System.out.println(pHead);
 
 //        System.out.println(reverseListByStack(pHead));
-//        System.out.println(reverseListByIteration(pHead));
-        System.out.println(reverseListByRecursive(pHead));
+//        System.out.println(ReverseList(pHead));
+//        System.out.println(reverseListByRecursive(pHead));
     }
 }

@@ -1,8 +1,6 @@
 package test
 
-import leetcodetest.targetoffer.question07.RebuildBinaryTree
 import java.util.*
-import javax.swing.tree.TreeNode
 
 
 /**
@@ -21,13 +19,11 @@ fun main() {
 //    println(listFromTailToHead3(listNode))
     println(reverseList1(listNode))
 //    println(findFirstCommonNode(listNode, ListNode(3, listNode1)))
-//    println(deleteDuplication(listNode))
+//    println(deleteDuplication(listNode)
 }
 
 //输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
 /*************************************************************************************************************************/
-
-data class ListNode(var head: Int, var next: ListNode? = null)
 
 //先把元素里面的元素从头到尾遍历取出放在栈里面，然后再把栈的元素取出来放在ArraList里面。主要利用了栈的先进后出的规则，这样就可以实现倒序的功能
 //压栈,FILO,现金后出

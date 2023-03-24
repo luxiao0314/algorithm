@@ -12,7 +12,9 @@ object StringTest {
     @JvmStatic
     fun main(args: Array<String>) {
 //        println("leftRotateString1: " + leftRotateString1("abcXYZdef", 3))
-        println("permutation: " + permutation("abc").contentToString())
+//        println("permutation: " + permutation("abc").contentToString())
+//        println(multiply("23","51"))
+        println(lengthOfLongestSubstring("abcdsadad"))
     }
 }
 
@@ -138,4 +140,56 @@ private fun swap(i: Int, x: Int) {
     val temp = c[i]
     c[i] = c[x]
     c[x] = temp
+}
+
+/**
+ * 定两个以字符串形式表示的非负整数num1和num2，返回num1和num2的乘积，它们的乘积也表示为字符串形式。
+ * 注意：不能使用任何内置的 BigInteger 库或直接将输入转换为整数。
+ */
+fun multiply(num1: String, num2: String): String {
+    if (num1 == "0" || num2 == "0") {
+        return "0"
+    }
+    val m = num1.length
+    val n = num2.length
+    val ansArr = IntArray(m + n)
+    for (i in m - 1 downTo 0) {
+        val x = num1[i] - '0'
+        for (j in n - 1 downTo 0) {
+            val y = num2[j] - '0'
+            ansArr[i + j + 1] += x * y
+        }
+    }
+    for (i in m + n - 1 downTo 1) {
+        ansArr[i - 1] += ansArr[i] / 10
+        ansArr[i] %= 10
+    }
+    var index = if (ansArr[0] == 0) 1 else 0
+    val ans = StringBuffer()
+    while (index < m + n) {
+        ans.append(ansArr[index])
+        index++
+    }
+    return ans.toString()
+}
+
+/**
+ * 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+ */
+fun lengthOfLongestSubstring(s: String): Int {
+    // 记录字符上一次出现的位置
+    val last = IntArray(128)
+    for (i in 0..127) {
+        last[i] = -1
+    }
+    val n = s.length
+    var res = 0
+    var start = 0 // 窗口开始位置
+    for (i in 0 until n) {
+        val index = s[i].code
+        start = Math.max(start, last[index] + 1)
+        res = Math.max(res, i - start + 1)
+        last[index] = i
+    }
+    return res
 }
